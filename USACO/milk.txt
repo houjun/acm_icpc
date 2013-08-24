@@ -1,0 +1,45 @@
+/*
+ID: neil.li2
+LANG: C
+TASK: milk
+*/
+
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	FILE *fin=fopen("milk.in","r");
+    FILE *fout=fopen("milk.out","w");
+
+	int totamount,nfarmer,i,j,tmp1,tmp2,totnum=0;
+	int totprice=0;
+	int amount[1001]={0};
+
+	fscanf(fin,"%d %d",&totamount,&nfarmer);
+
+	for (i=0;i<nfarmer;i++)	{
+		fscanf(fin,"%d %d",&tmp1,&tmp2);
+		amount[tmp1]+=tmp2;
+		totnum++;
+	}
+
+	j=0;
+	while(totamount){		
+		if(amount[j]){
+			if(amount[j]<=totamount){
+				totprice+=amount[j]*j;
+				totamount-=amount[j];
+			}
+			else{
+				totprice+=totamount*j;
+				totamount-=amount[j];
+				break;
+			}
+		}
+		j++;
+	}
+	fprintf(fout,"%d\n",totprice);
+
+	return 0;
+}

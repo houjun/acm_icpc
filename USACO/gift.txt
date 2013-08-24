@@ -1,0 +1,50 @@
+/*
+ID: neil.li2
+LANG: C
+TASK: gift1
+*/
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	int np,i,num,out,t,tt;
+	char name[10][15]={'\0'},giver[15]={'\0'},receiver[15]={'\0'};
+	int money[10]={0};
+
+	FILE *fin  = fopen ("gift1.in", "r");
+    FILE *fout = fopen ("gift1.out", "w");
+
+	fscanf(fin,"%d",&np);
+	tt=np;
+	for(i=0;i<np;i++)
+		fscanf(fin,"%s",name[i]);
+	while(tt--){
+		fscanf(fin,"%s",giver);
+		fscanf(fin,"%d %d",&out,&num);
+		t=num;
+		if(num==0)	continue;
+		for (i=0;i<np;i++){
+			if(strcmp(giver,name[i])==0){
+				money[i]-=out;
+				money[i]+=(out-(out/num)*num);
+			}
+		}
+		
+		while(t--){
+			fscanf(fin,"%s",receiver);
+			for (i=0;i<np;i++){
+				if(strcmp(receiver,name[i])==0)
+					money[i]+=(out/num);
+			}
+		}
+	
+	}
+	for (i=0;i<np;i++){
+		fprintf(fout,"%s ",name[i]);
+		fprintf(fout,"%d\n",money[i]);
+		}
+
+	exit (0);
+}
+

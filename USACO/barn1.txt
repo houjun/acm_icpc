@@ -1,0 +1,54 @@
+/*通过数出前maxboard个最大间隔确定有多少个间隔可以通过两端有栏隔开*/
+/*
+ID: neil.li2
+LANG: C
+TASK: barn1
+*/
+
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	FILE *fin=fopen("barn1.in","r");
+	FILE *fout=fopen("barn1.out","w");
+
+	int occupy[201]={0};				/*有牛的栅栏置为1*/
+	int vacant[201]={0};				/*[i]=n i为间隔数 n为有几个这样的间隔 */
+	int maxboard,totstall,cownum,i,j,tmp;
+	int head,tail,vacntnum,totvacnt=0,totblk;
+
+	fscanf(fin,"%d %d %d",&maxboard,&totstall,&cownum);
+	for (i=0;i<cownum;i++)	{
+		fscanf(fin,"%d",&tmp);
+		occupy[tmp]=1;
+	}
+	
+	head=1;
+	while(occupy[head]==0) head++;
+	head--;
+	tail=totstall;
+	while(occupy[tail]==0) tail--;
+	tail=totstall-tail;
+
+	for (i=head+1;i<=totstall-tail;i++)	{	/*找到中间的间隔*/
+		if(occupy[i]==1)	continue;
+		else{
+			vacntnum=1;
+			while(occupy[++i]==0)
+				vacntnum++;
+			vacant[vacntnum]++;
+		}
+	}
+
+	for (j=200;j>0&&maxboard>1;){			/*从最大间隔开始依次数出间隔数*/
+		while(vacant[j]==0)	--j;
+		if(j>0&&vacant[j]>0){	
+			totvacnt+=j;
+			vacant[j]--;
+			maxboard--;
+		}
+	}
+	totblk=totstall-head-tail-totvacnt;
+	fprintf(fout,"%d\n",totblk);
+	return 0;
+}

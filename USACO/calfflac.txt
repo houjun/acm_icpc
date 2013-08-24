@@ -1,0 +1,55 @@
+/*
+ID: neil.li2
+LANG: C
+TASK: calfflac
+*/
+#include <stdio.h>
+char a[20001], b[20001];
+int n, m, t[20001], left, right, max;
+void check(int l, int r)
+{
+	while (l >= 1 && r <= n)
+	{
+        if (b[l] == b[r])
+        {
+			l--; r++;
+        }
+        else break;
+	}
+	if (r - l - 1 > max)
+	{
+        max = r - l - 1;
+        left = t[l + 1];
+        right = t[r - 1];
+	}
+}
+int main(void)
+{
+	FILE *fin=fopen("calfflac.in","r");
+    FILE *fout=fopen("calfflac.out","w");
+    char ch;
+	int i;
+    while (fscanf (fin,"%c", &ch) != EOF)
+    {
+		n++;
+		a[n] = ch;
+    }
+    for ( i = 1; i <= n; i++)
+		if ((a[i] >= 'a' && a[i] <= 'z') || (a[i] >= 'A' && a[i] <= 'Z'))
+		{
+            m++;
+            if (a[i] >= 97) b[m] = a[i] - 32;
+            else b[m] = a[i];
+            t[m] = i;
+		}
+		for (i = 1; i <= m; i++)
+		{
+			check(i - 1, i + 1);
+			check(i, i + 1);
+		}
+		fprintf (fout,"%d\n", max);
+		for (i = left; i <= right; i++)
+			fprintf (fout,"%c", a[i]);
+		fprintf (fout,"\n");
+		return 0;
+}

@@ -1,0 +1,55 @@
+/*
+ID: neil.li2
+LANG: C
+TASK: dualpal
+*/
+
+#include <stdio.h>
+#include <string.h>
+void convert(int num,int base,char number[200]){				/*store it in number[10]*/
+	int t=0,tmp;
+	while(num){
+		tmp=num%base;
+		number[t++]=tmp+'0';
+		num/=base;
+	}
+	number[t]='\0';
+}
+
+int test(char number[200]){
+	int l;
+	char *pfront,*pback;
+	l=strlen(number);
+	pfront=&number[0];
+	pback=&number[l-1];
+	while(pfront<=pback){
+		if(*pfront!=*pback)	
+			return 0;
+		pback--;pfront++;
+	}
+	return 1;
+}
+
+int main()
+{
+	FILE *fin=fopen("dualpal.in","r");
+    FILE *fout=fopen("dualpal.out","w");
+	
+	int i,j,s,n,righttime,ntime;
+	char number[200];
+
+	fscanf(fin,"%d %d",&n,&s);
+	for(i=s+1,ntime=0;ntime<n;i++){				/*ntime is the number of found pals*/		
+		for(j=2,righttime=0;j<11&&righttime<2;j++){			/*generate a num from base 2 to 10*/
+			convert(i,j,number);
+			if(test(number))	righttime++;	/*test the num is a pal  */
+			if(righttime==2){					/*righttime record the times it is a pal*/
+				fprintf(fout,"%d\n",i);
+				ntime++;
+				break;
+			}
+		}
+	}
+
+	return 0;
+}

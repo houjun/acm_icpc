@@ -1,0 +1,47 @@
+/*
+ID: neil.li2
+LANG: C
+TASK: namenum
+*/
+
+#include <stdio.h>
+#include <string.h>
+
+char trans(char ch){
+	if		(ch>='A'&&ch<='C')	return '2';
+	else if (ch>='D'&&ch<='F')	return '3';
+	else if (ch>='G'&&ch<='I')	return '4';
+	else if (ch>='J'&&ch<='L')	return '5';
+	else if (ch>='M'&&ch<='O')	return '6';
+	else if (ch>='P'&&ch<='S')	return '7';
+	else if (ch>='T'&&ch<='V')	return '8';
+	else if (ch>='W'&&ch<='Y')	return '9';
+	else return '1';
+}
+
+int main()
+{
+	FILE *fin=fopen("namenum.in","r");
+    FILE *fout=fopen("namenum.out","w");
+
+	char name[13],inputnum[13],num[13];
+	int length,i,flag=0;
+	
+	fscanf(fin,"%s",inputnum);
+	freopen("dict.txt","r",stdin);
+	while(scanf("%s",name)!=-1)	{
+		length=strlen(name);
+		for(i=0;i<length;i++)
+			num[i]=trans(name[i]);
+		num[i]='\0';
+		if(strcmp(inputnum,num)==0){
+			fprintf(fout,"%s\n",name);
+			flag=1;						/*flag=1表示找到相匹配的名字*/
+		}		
+	}
+	if(!flag)	fprintf(fout,"NONE\n"); /*没有相匹配的打印NONE*/
+
+
+
+	return 0;
+}

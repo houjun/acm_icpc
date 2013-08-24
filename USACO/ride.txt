@@ -1,0 +1,36 @@
+/*
+ID: neil.li2
+LANG: C
+TASK: ride
+*/
+#include <stdio.h>
+main () {
+    FILE *fin  = fopen ("ride.in", "r");
+    FILE *fout = fopen ("ride.out", "w");
+    char name[7], comet[7];
+    char *p;
+    int a=1,b=1;    
+
+    fscanf (fin, "%s", name);
+    fscanf(fin,"%s",comet);
+    p=name;
+    while(*p!='\0')
+    {
+          a*=(*p-'A'+1);
+         p++;
+     }
+     a%=47;
+    p=comet; 
+    while(*p!='\0')
+    {
+          b*=(*p-'A'+1);
+         p++;
+     }
+     b%=47;
+    if(a==b)
+          fprintf (fout, "GO\n");
+    else
+          fprintf (fout, "STAY\n");
+
+    exit (0);
+}
